@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:suuq_somali/car/car_feature_details.dart';
-import 'package:suuq_somali/car/car_filter.dart';
 import 'package:suuq_somali/controller/car_controller.dart';
 import 'package:suuq_somali/models/car_model.dart';
 import 'package:suuq_somali/utils/app_theme.dart';
@@ -31,21 +31,33 @@ class _CarPageState extends State<CarPage> {
   String rentACar = "175";
   var currentSelectedByaCar = "176";
 
+  DateTime convertTimeStampToDateTime(int timeStamp) {
+    var dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    return dateToTimeStamp;
+  }
+
+  String convertTimeStampToHumanDate(int timeStamp) {
+    var dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    return DateFormat('M').format(dateToTimeStamp);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#ededed"),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color(0xFFFFFFFF),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: HexColor("#dc3545"),
         elevation: 1,
         centerTitle: true,
         title: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Text("Car",style: TextStyle(fontSize: 19,color: Colors.black),)
-        ),
+            child: Text(
+              "Car",
+              style: TextStyle(fontSize: 19, color: Colors.white),
+            )),
       ),
-   //   drawer: MenuScreen(),
+      //   drawer: MenuScreen(),
       body: Obx(() {
         if (carController.carLoading.value) {
           return Center(
@@ -1228,26 +1240,57 @@ class _CarPageState extends State<CarPage> {
         //   ),
         // ),
 
-         Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left:8.0),
-                child: Text(
-                  "Featured Listing",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                "${carController.getCar.value.featured.length} Car ",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(3.0),
+                  ),
+                  height: 36,
+                  width: 50,
+                  child: Icon(
+                    Icons.list,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
-              ),
-              IconButton(
-                  icon: Icon(Icons.filter_list_outlined), onPressed: () {
-                  Get.to(CarFilterScreen(),transition: Transition.zoom);
-              },
-              ),
-            ],
-          ),
+
+                // ignore: deprecated_member_use
+                SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(3.0),
+                    child: RaisedButton(
+                      color: Colors.red,
+                      onPressed: () {},
+                      child: Text(
+                        "Filters",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
         Obx(() {
           if (carController.carLoading.value) {
             return Center(
@@ -1261,7 +1304,7 @@ class _CarPageState extends State<CarPage> {
             itemBuilder: (_, index) {
               var data = carController.getCar.value.featured[index];
               return InkWell(
-                onTap: (){
+                onTap: () {
                   Get.to(
                       CarFeatureDetails(
                         image: data.photoUrl,
@@ -1276,6 +1319,8 @@ class _CarPageState extends State<CarPage> {
                         color: data.customFields['28'],
                         condition: data.customFields['33'],
                         milage: data.customFields['41'],
+                        location: data.cityName,
+                        submissionDate: data.submissionDate,
                       ),
                       transition: Transition.zoom);
                   // Get.to(
@@ -1305,7 +1350,8 @@ class _CarPageState extends State<CarPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(3.0)),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 28.0),
                               child: Image.network(
@@ -1319,11 +1365,13 @@ class _CarPageState extends State<CarPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text("\$${data.price}",
+                                    padding: const EdgeInsets.only(
+                                        left: 12.0, top: 12),
+                                    child: Text("\$ ${data.price}",
                                         style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold)),
@@ -1331,178 +1379,200 @@ class _CarPageState extends State<CarPage> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 5),
+                                padding:
+                                const EdgeInsets.only(left: 12.0, top: 5),
                                 child: Text(
-                                  "${data.listingTitle}",
+                                  "${data.listingAddr}",
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
                                 ),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  Icon(
-                                                    Icons.person,
-                                                    color: Colors.red,
-                                                  ),
-                                                  Expanded(child: Text("1 month ago")),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 4,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  Icon(
-                                                    Icons.tour,
-                                                    color: Colors.red,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(4.0),
-                                                    child: Text(
-                                                        "Beds:${data.customFields['33']?? ""}"),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 3,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4.0),
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.keyboard,
-                                                    color: Colors.red,
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                        " Type: ${data.customFields['32'] ?? ""}"),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding:
-                                          const EdgeInsets.only(right: 4.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                // mainAxisAlignment:
-                                                //     MainAxisAlignment.start,
-                                                // crossAxisAlignment:
-                                                //     CrossAxisAlignment.start,
-                                                children: [
-                                                  Icon(
-                                                    Icons.location_on_outlined,
-                                                    color: Colors.red,
-                                                  ),
-                                                  Text(data.stateAbbr),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 4,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 20.0, right: 5),
-                                                child: Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(
-                                                          right: 3.0),
-                                                      child: Icon(
-                                                        Icons.adb_sharp,
-                                                        color: Colors.red,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                          "Bath:${data.customFields['34'] ?? ""}"),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 4,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 25.0, right: 0),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.border_style,
-                                                      color: Colors.red,
-                                                    ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                        const EdgeInsets.only(
-                                                            left: 4.0),
-                                                        child: Text(
-                                                            "sq.ft${data.customFields['38'] ?? ""}"),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                ],
-                              ),
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(left: 8.0, top: 5),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                          "${data.customFields['33'] ?? ""}  Bed"),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                          "${data.customFields['34'] ?? ""}  Bath"),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                          "${data.customFields['38'] ?? ""}  sqft"),
+                                    ),
+                                  ],
+                                ),
+                              )
+
+                              // Column(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   crossAxisAlignment: CrossAxisAlignment.center,
+                              //   children: [
+                              //     Row(
+                              //       mainAxisAlignment: MainAxisAlignment.start,
+                              //       crossAxisAlignment: CrossAxisAlignment.start,
+                              //       children: [
+                              //         Expanded(
+                              //           child: Column(
+                              //             mainAxisAlignment:
+                              //             MainAxisAlignment.start,
+                              //             crossAxisAlignment:
+                              //             CrossAxisAlignment.start,
+                              //             children: [
+                              //               Padding(
+                              //                 padding: const EdgeInsets.only(
+                              //                     left: 4.0),
+                              //                 child: Row(
+                              //                   mainAxisAlignment:
+                              //                   MainAxisAlignment.start,
+                              //                   crossAxisAlignment:
+                              //                   CrossAxisAlignment.start,
+                              //                   children: [
+                              //                     Icon(
+                              //                       Icons.person,
+                              //                       color: Colors.red,
+                              //                     ),
+                              //                     Expanded(child: Text("${convertTimeStampToHumanDate(data.submissionDate)} months ago")),
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //               SizedBox(
+                              //                 height: 4,
+                              //               ),
+                              //               Padding(
+                              //                 padding: const EdgeInsets.only(
+                              //                     left: 4.0),
+                              //                 child: Row(
+                              //                   mainAxisAlignment:
+                              //                   MainAxisAlignment.start,
+                              //                   crossAxisAlignment:
+                              //                   CrossAxisAlignment.start,
+                              //                   children: [
+                              //                     Icon(
+                              //                       Icons.tour,
+                              //                       color: Colors.red,
+                              //                     ),
+                              //                     Padding(
+                              //                       padding:
+                              //                       const EdgeInsets.all(4.0),
+                              //                       child: Text(
+                              //                           "Beds:${data.customFields['33']?? ""}"),
+                              //                     ),
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //               SizedBox(
+                              //                 height: 3,
+                              //               ),
+                              //               Padding(
+                              //                 padding: const EdgeInsets.only(
+                              //                     left: 4.0),
+                              //                 child: Row(
+                              //                   children: [
+                              //                     Icon(
+                              //                       Icons.keyboard,
+                              //                       color: Colors.red,
+                              //                     ),
+                              //                     Expanded(
+                              //                       child: Text(
+                              //                           " Type: ${data.customFields['32'] ?? ""}"),
+                              //                     )
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //         Expanded(
+                              //           child: Padding(
+                              //             padding:
+                              //             const EdgeInsets.only(right: 4.0),
+                              //             child: Column(
+                              //               mainAxisAlignment:
+                              //               MainAxisAlignment.start,
+                              //               crossAxisAlignment:
+                              //               CrossAxisAlignment.start,
+                              //               children: [
+                              //                 Row(
+                              //                   // mainAxisAlignment:
+                              //                   //     MainAxisAlignment.start,
+                              //                   // crossAxisAlignment:
+                              //                   //     CrossAxisAlignment.start,
+                              //                   children: [
+                              //                     Icon(
+                              //                       Icons.location_on_outlined,
+                              //                       color: Colors.red,
+                              //                     ),
+                              //                     Text(data.stateAbbr),
+                              //                   ],
+                              //                 ),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Padding(
+                              //                   padding: const EdgeInsets.only(
+                              //                       left: 20.0, right: 5),
+                              //                   child: Row(
+                              //                     children: [
+                              //                       Padding(
+                              //                         padding:
+                              //                         const EdgeInsets.only(
+                              //                             right: 3.0),
+                              //                         child: Icon(
+                              //                           Icons.adb_sharp,
+                              //                           color: Colors.red,
+                              //                         ),
+                              //                       ),
+                              //                       Expanded(
+                              //                         child: Text(
+                              //                             "Bath:${data.customFields['34'] ?? ""}"),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 ),
+                              //                 SizedBox(
+                              //                   height: 4,
+                              //                 ),
+                              //                 Padding(
+                              //                   padding: const EdgeInsets.only(
+                              //                       left: 25.0, right: 0),
+                              //                   child: Row(
+                              //                     children: [
+                              //                       Icon(
+                              //                         Icons.border_style,
+                              //                         color: Colors.red,
+                              //                       ),
+                              //                       Expanded(
+                              //                         child: Padding(
+                              //                           padding:
+                              //                           const EdgeInsets.only(
+                              //                               left: 4.0),
+                              //                           child: Text(
+                              //                               "sq.ft${data.customFields['38'] ?? ""}"),
+                              //                         ),
+                              //                       )
+                              //                     ],
+                              //                   ),
+                              //                 ),
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     SizedBox(
+                              //       height: 2,
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
                         )
@@ -2431,9 +2501,9 @@ class _CarPageState extends State<CarPage> {
     );
   }
 
-  // Widget row(City item) {
-  //   return ListTile(
-  //     title: Text(item.cityName),
-  //   );
-  // }
+// Widget row(City item) {
+//   return ListTile(
+//     title: Text(item.cityName),
+//   );
+// }
 }

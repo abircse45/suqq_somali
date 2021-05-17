@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suuq_somali/Login/login_screen.dart';
-import 'package:suuq_somali/create_listing/category_list_controller.dart';
 import 'package:suuq_somali/create_listing/createList_controller_foreach.dart';
 import 'package:suuq_somali/create_listing/look_for_some_form.dart';
 import 'package:suuq_somali/utils/app_theme.dart';
@@ -102,7 +101,7 @@ class _CreateListingItemState extends State<CreateListingItem> {
                         Icons.arrow_drop_down,
                         color: Colors.white,
                       ),
-                      title: Text("Sell or Rent Property "),
+                      title: Text("A Sell Property Cars an item or Service"),
                       children: [
                         ListView.builder(
                           shrinkWrap: true,
@@ -111,71 +110,79 @@ class _CreateListingItemState extends State<CreateListingItem> {
                           itemBuilder: (context, i) {
                             var data = createList.propertyList[i];
                             print("$data");
-                            return ExpansionTile(
-                              trailing: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.white,
-                              ),
+                            return ListTile(
+                              onTap: (){
+                                Get.to(CreateListFormPage(),transition: Transition.zoom);
+                              },
                               title: Text(data),
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 20.0, top: 6),
-                                  child: Row(
-                                    children: [
-                                      Radio(
-                                        value: selectedRadio,
-                                        groupValue: currentSelect,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            currentSelect = selectedRadio;
-                                          });
-                                        },
-                                      ),
-                                      Text("Rent"),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 20.0, top: 6),
-                                  child: Row(
-                                    children: [
-                                      Radio(
-                                        value: selectedRadio2,
-                                        groupValue: currentSelect,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            currentSelect = selectedRadio2;
-                                          });
-                                        },
-                                      ),
-                                      Text("Sale"),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 8.0),
-                                  // ignore: deprecated_member_use
-                                  child: RaisedButton(
-                                    onPressed: () {
-                              if(token==null){
-                                Get.to(LoginScreen(),
-                                    transition: Transition.zoom);
-                              }else{
-                                Get.to(CreateListFormPage(),
-                                    transition: Transition.zoom);
-                              }
-                                    },
-                                    child: Text(
-                                      "Next",
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    ),
-                                    color: HexColor("#dc3545"),
-                                  ),
-                                )
-                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+
+                    ExpansionTile(
+                      trailing: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                      ),
+                      title: Text("Offer property for rent"),
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: createList.propertyList.length,
+                          itemBuilder: (context, i) {
+                            var data = createList.propertyList[i];
+                            print("$data");
+                            return ListTile(
+                              onTap: (){
+                                Get.to(CreateListFormPage(),transition: Transition.zoom);
+                              },
+                              title: Text(data),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.grey[800],
+                    ),
+
+
+
+                    ExpansionTile(
+                      trailing: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                      ),
+                      title: Text("Post a job vacancy"),
+                      children: [],
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+                    ExpansionTile(
+                      trailing: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                      ),
+                      title: Text("Look for something to buy"),
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: createList.propertyList.length,
+                          itemBuilder: (context, i) {
+                            var data = createList.propertyList[i];
+                            return ListTile(
+                              onTap: (){
+                                Get.to(LookForSomeFormSrceen(),transition: Transition.zoom);
+                              },
+                              title: Text(data),
                             );
                           },
                         ),
@@ -189,20 +196,7 @@ class _CreateListingItemState extends State<CreateListingItem> {
                         Icons.arrow_drop_down,
                         color: Colors.white,
                       ),
-                      title: Text("Post a job vacancy"),
-                      children: [
-
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.grey,
-                    ),
-                    ExpansionTile(
-                      trailing: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                      ),
-                      title: Text("Look for Something"),
+                      title: Text("Look for something to rent"),
                       children: [
                         ListView.builder(
                           shrinkWrap: true,
@@ -210,71 +204,11 @@ class _CreateListingItemState extends State<CreateListingItem> {
                           itemCount: createList.propertyList.length,
                           itemBuilder: (context, i) {
                             var data = createList.propertyList[i];
-                            return ExpansionTile(
-                              trailing: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.white,
-                              ),
+                            return ListTile(
+                              onTap: (){
+                                Get.to(LookForSomeFormSrceen(),transition: Transition.zoom);
+                              },
                               title: Text(data),
-                              children: [
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 20.0, top: 6),
-                                  child: Row(
-                                    children: [
-                                      Radio(
-                                        value: selectedRadio,
-                                        groupValue: currentSelect,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            currentSelect = selectedRadio;
-                                          });
-                                        },
-                                      ),
-                                      Text("Rent"),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 20.0, top: 6),
-                                  child: Row(
-                                    children: [
-                                      Radio(
-                                        value: selectedRadio2,
-                                        groupValue: currentSelect,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            currentSelect = selectedRadio2;
-                                          });
-                                        },
-                                      ),
-                                      Text("Sale"),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 8.0),
-                                  // ignore: deprecated_member_use
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      if(token==null){
-                                        Get.to(LoginScreen(),
-                                            transition: Transition.zoom);
-                                      }else{
-                                        Get.to(LookForSomeFormSrceen(),
-                                            transition: Transition.zoom);
-                                      }
-                                    },
-                                    child: Text(
-                                      "Next",
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.white),
-                                    ),
-                                    color: HexColor("#dc3545"),
-                                  ),
-                                )
-                              ],
                             );
                           },
                         ),

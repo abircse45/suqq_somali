@@ -18,17 +18,18 @@ class AllAddScreen extends StatelessWidget {
       backgroundColor: HexColor("#ededed"),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color(0xFFFFFFFF),
+        backgroundColor: HexColor("#dc3545"),
+        title: Text("My Ads",style: TextStyle(fontSize: 16,color: Colors.white),),
         elevation: 1,
-        centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Image.asset(
-            "assets/images/suuq_logo.png",
-            height: 90,
-            width: 170,
-          ),
-        ),
+   //     centerTitle: true,
+        // title: Padding(
+        //   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        //   child: Image.asset(
+        //     "assets/images/suuq_logo.png",
+        //     height: 90,
+        //     width: 170,
+        //   ),
+        // ),
       ),
       body: Obx(() {
         if (allAdsController.allAdsLoading.value) {
@@ -41,22 +42,22 @@ class AllAddScreen extends StatelessWidget {
         }
         return ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top:10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("All Ads",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),),
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 2,
-              color: Colors.grey,
-              indent: 12,
-              endIndent: 5,
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top:10.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     children: [
+            //       Text("All Ads",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),),
+            //     ],
+            //   ),
+            // ),
+            // Divider(
+            //   thickness: 2,
+            //   color: Colors.grey,
+            //   indent: 12,
+            //   endIndent: 5,
+            // ),
             ListView.builder(
               shrinkWrap: true,
               primary: false,

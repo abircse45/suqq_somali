@@ -125,8 +125,9 @@ class _PropertyFilterState extends State<PropertyFilter> {
             },
             style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all<Color>(Colors.green[800]),
+              MaterialStateProperty.all<Color>(HexColor("#dc3545"),),
             ),
+
             child: Text(
               "Search",
               style: TextStyle(fontSize: 18),
@@ -136,8 +137,8 @@ class _PropertyFilterState extends State<PropertyFilter> {
       ),
       body:
 
-      // currentSelectedValueRent == propertyRent
-      //     ?
+      currentSelectedValueRent == propertyRent
+          ?
       SingleChildScrollView(
         child: Column(
           children: [
@@ -148,6 +149,7 @@ class _PropertyFilterState extends State<PropertyFilter> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left:17.0),
+                    // ignore: deprecated_member_use
                     child: RaisedButton(
                       color: currentSelectedValueRent == propertyRent
                           ? HexColor("#bae6c0")
@@ -348,12 +350,7 @@ class _PropertyFilterState extends State<PropertyFilter> {
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.home,
-                          color: Colors.green[800],
-                          size: 25,
-                        ),
-                        SizedBox(width: 7),
+
                         Text(
                           "Property Types",
                           style: TextStyle(
@@ -448,12 +445,7 @@ class _PropertyFilterState extends State<PropertyFilter> {
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.hotel,
-                          color: Colors.green[800],
-                          size: 25,
-                        ),
-                        SizedBox(width: 7),
+
                         Text(
                           "Rooms",
                           style: TextStyle(
@@ -542,12 +534,7 @@ class _PropertyFilterState extends State<PropertyFilter> {
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.hotel,
-                          color: Colors.green[800],
-                          size: 25,
-                        ),
-                        SizedBox(width: 7),
+
                         Text(
                           "Bathrooms",
                           style: TextStyle(
@@ -638,12 +625,1871 @@ class _PropertyFilterState extends State<PropertyFilter> {
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.hotel,
-                          color: Colors.green[800],
-                          size: 25,
+
+                        Text(
+                          "Car Space",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                  ),
+                  Obx(
+                        () {
+                      if (propertyController.loading.value) {
+                        return Center(
+                          child: SpinKitCircle(
+                            color: Colors.green[800],
+                            size: 40,
+                          ),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 2.0, top: 10),
+                        child: Container(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            primary: false,
+                            itemCount: propertyController.carSpace.length,
+                            itemBuilder: (_, index) {
+                              var car = propertyController.carSpace[index];
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (selected3 == index) {
+                                      selected3 = -1;
+                                    } else {
+                                      selected3 = index;
+                                    }
+                                    currentSelectedValueCar = car;
+                                    print("CAR....${currentSelectedValueCar}");
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 14.0, left: 14),
+                                  child: Container(
+                                    padding: EdgeInsets.all(15),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: selected3 == index
+                                            ? Colors.green[800]
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.circular(5),
+                                        shape: BoxShape.rectangle),
+                                    child: Text(
+                                      car,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                        SizedBox(width: 7),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 8,
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            // currentSelectedValueRent == propertyRent
+            //     ?
+            // Container(
+            //   // height: 470,
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //         image: AssetImage('assets/images/hero.jpeg'),
+            //         fit: BoxFit.cover),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 28.0, bottom: 30),
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: <Widget>[
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 30.0, bottom: 5),
+            //           child: Wrap(
+            //             children: [
+            //               RaisedButton(
+            //                 color: currentSelectedValueRent == propertyRent
+            //                     ? Colors.black
+            //                     : Colors.red,
+            //                 onPressed: () {
+            //                   setState(() {
+            //                     currentSelectedValueRent = propertyRent;
+            //                   });
+            //                 },
+            //                 child: Text(
+            //                   "Rent",
+            //                   style: TextStyle(
+            //                       fontSize: 16, color: Colors.white),
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 width: 10,
+            //               ),
+            //               RaisedButton(
+            //                 color: currentSelectedValueRent == propertyBuy
+            //                     ? Colors.black
+            //                     : Colors.red,
+            //                 onPressed: () {
+            //                   setState(
+            //                         () {
+            //                       currentSelectedValueRent = propertyBuy;
+            //                     },
+            //                   );
+            //                 },
+            //                 child: Text(
+            //                   "Buy",
+            //                   style: TextStyle(
+            //                       fontSize: 16, color: Colors.white),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 20.0, right: 20),
+            //           child: Container(
+            //             // height: 360,
+            //             // width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(5),
+            //               color: Colors.black,
+            //             ),
+            //             child: Column(
+            //               children: [
+            //                 Obx(() {
+            //                   return Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 23.0, right: 23.0, top: 18),
+            //                     child: Container(
+            //                       height: 70,
+            //                       decoration: BoxDecoration(
+            //                           borderRadius: BorderRadius.circular(5),
+            //                           color: Colors.white),
+            //                       child: SearchableDropdown(
+            //                         hint: Padding(
+            //                           padding: const EdgeInsets.all(13.0),
+            //                           child: Text("Select City"),
+            //                         ),
+            //                         iconSize: 20,
+            //                         displayClearIcon: true,
+            //                         underline: Container(
+            //                           decoration: BoxDecoration(
+            //                               border: Border.all(
+            //                                   color: Colors.white)),
+            //                         ),
+            //                         items: propertyController
+            //                             .getProperty.value.states.values
+            //                             .map((e) {
+            //                           return DropdownMenuItem(
+            //                             child: Text(e.stateName),
+            //                             value: e.stateName,
+            //                           );
+            //                         }).toList(),
+            //                         value: selectedCity,
+            //                         onChanged: (value) {
+            //                           setState(() {
+            //                             selectedCity = value;
+            //                           });
+            //                         },
+            //                         isExpanded: true,
+            //                       ),
+            //                     ),
+            //                   );
+            //                 }),
+            //
+            //                 ///Pending......
+            //
+            //                 Obx(
+            //                       () {
+            //                     if (propertyController.loading.value) {
+            //                       return Center(
+            //                         child: CircularProgressIndicator(),
+            //                       );
+            //                     }
+            //                     return Padding(
+            //                       padding: const EdgeInsets.only(
+            //                           top: 10.0, left: 25, right: 25),
+            //                       child: Container(
+            //                         height: 70,
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.white,
+            //                         ),
+            //                         child: DropdownButtonHideUnderline(
+            //                           child: DropdownButton(
+            //                             underline: Container(
+            //                               height: 1,
+            //                               color: Colors.transparent,
+            //                             ),
+            //                             iconSize: 30,
+            //                             isExpanded: true,
+            //                             style: TextStyle(color: Colors.black),
+            //                             hint: Padding(
+            //                               padding: const EdgeInsets.only(
+            //                                   left: 10.0),
+            //                               child: Text(
+            //                                 " Select Area",
+            //                                 style: TextStyle(
+            //                                     color: Colors.black),
+            //                               ),
+            //                             ),
+            //                             items: propertyController
+            //                                 .getProperty.value.cities.values
+            //                                 .map((e) {
+            //                               return DropdownMenuItem(
+            //                                 child: Padding(
+            //                                   padding: const EdgeInsets.only(
+            //                                       left: 0.0),
+            //                                   child: Container(
+            //                                     child: ListTile(
+            //                                       title: Text(e.cityName),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                                 value: e.cityName,
+            //                               );
+            //                             }).toList(),
+            //                             value: selectArea,
+            //                             onChanged: (text) {
+            //                               setState(() {
+            //                                 selectArea = text;
+            //                               });
+            //                             },
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     );
+            //                   },
+            //                 ),
+            //
+            //                 //  Area ////////
+            //
+            //                 Obx(
+            //                       () {
+            //                     if (propertyController.loading.value) {
+            //                       return Center(
+            //                         child: SpinKitChasingDots(
+            //                           color: Colors.red,
+            //                           size: 50.0,
+            //                         ),
+            //                       );
+            //                     }
+            //                     return Padding(
+            //                       padding: const EdgeInsets.only(
+            //                           top: 10.0, left: 25, right: 25),
+            //                       child: Container(
+            //                         height: 70,
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.white,
+            //                         ),
+            //                         child: DropdownButtonHideUnderline(
+            //                           child: DropdownButton(
+            //                             iconSize: 35,
+            //                             isExpanded: true,
+            //                             style: TextStyle(color: Colors.black),
+            //                             hint: Padding(
+            //                               padding: const EdgeInsets.only(
+            //                                   left: 10.0),
+            //                               child: Text(
+            //                                 " Select Property Type",
+            //                                 style: TextStyle(
+            //                                     color: Colors.black),
+            //                               ),
+            //                             ),
+            //                             items: propertyController.propertyList
+            //                                 .map((element) {
+            //                               return DropdownMenuItem(
+            //                                 value: element,
+            //                                 child: Padding(
+            //                                   padding: const EdgeInsets.only(
+            //                                       left: 17.0),
+            //                                   child: Text(
+            //                                     element,
+            //                                     style: TextStyle(
+            //                                         color: Colors.black),
+            //                                   ),
+            //                                 ),
+            //                               );
+            //                             }).toList(),
+            //                             value: selectProperty,
+            //                             onChanged: (text) {
+            //                               setState(() {
+            //                                 selectProperty = text;
+            //                               });
+            //                             },
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     );
+            //                   },
+            //                 ),
+            //                 SizedBox(
+            //                   height: 15,
+            //                 ),
+            //
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(
+            //                       left: 28.0, right: 28),
+            //                   child: Container(
+            //                     height: 50,
+            //                     width: double.infinity,
+            //                     child: ElevatedButton(
+            //                       onPressed: () {
+            //                         searchController.getSaerchDataCalling(
+            //                           currentSelectedValueRent,
+            //                           selectedCity,
+            //                           selectArea,
+            //                           selectProperty,
+            //                           selectedCarSpace,
+            //                           selectBathRooms,
+            //                           selectedRoom,
+            //                         );
+            //                         // searchController.searchService.fetchSearchData(
+            //                         //   buycat_id,
+            //                         //   selectedCity,
+            //                         //   selectArea,
+            //                         //   selectProperty,
+            //                         //   selectedCarSpace,
+            //                         //   selectBathRooms,
+            //                         //   selectedRoom,
+            //                         //
+            //                         //
+            //                         //
+            //                         // );
+            //                         Get.to(SearchScreen(),
+            //                             transition: Transition.zoom);
+            //                       },
+            //                       style: ButtonStyle(
+            //                         backgroundColor:
+            //                         MaterialStateProperty.all<Color>(
+            //                             Colors.red),
+            //                       ),
+            //                       child: Text(
+            //                         "Search",
+            //                         style: TextStyle(fontSize: 20),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //
+            //                 SizedBox(
+            //                   height: 10,
+            //                 ),
+            //                 Row(
+            //                   children: [
+            //                     InkWell(
+            //                       onTap: () {
+            //                         setState(() {
+            //                           isVisible = !isVisible;
+            //                         });
+            //                       },
+            //                       child: Row(
+            //                         children: [
+            //                           Padding(
+            //                             padding:
+            //                             const EdgeInsets.only(left: 30.0),
+            //                             child: Text(
+            //                               "Advance Search",
+            //                               style: TextStyle(
+            //                                   fontSize: 15,
+            //                                   color: Colors.white),
+            //                             ),
+            //                           ),
+            //                           Icon(
+            //                             isVisible
+            //                                 ? Icons
+            //                                 .keyboard_arrow_down_rounded
+            //                                 : Icons
+            //                                 .keyboard_arrow_up_outlined,
+            //                             color: Colors.white,
+            //                           ),
+            //                           // Spacer(),
+            //                           // Padding(
+            //                           //   padding: const EdgeInsets.only(right: 30.0),
+            //                           //   child: Text(
+            //                           //     "Reset Search",
+            //                           //     style: TextStyle(
+            //                           //         fontSize: 14, color: Colors.white),
+            //                           //   ),
+            //                           // ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                     SizedBox(
+            //                       width: 30,
+            //                     ),
+            //                     TextButton(
+            //                       onPressed: () {
+            //                         setState(() {
+            //                           selectedCity = null;
+            //                           selectArea = null;
+            //                           selectProperty = null;
+            //                           selectedRoom = null;
+            //                           selectBathRooms = null;
+            //                           selectedCarSpace = null;
+            //                         });
+            //                       },
+            //                       child: Text(
+            //                         "Reset Search",
+            //                         style: TextStyle(
+            //                             fontSize: 15, color: Colors.white),
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 SizedBox(
+            //                   height: 10,
+            //                 ),
+            //                 Visibility(
+            //                   visible: isVisible,
+            //                   child: Column(
+            //                     children: [
+            //                       //Rooms......Advance Search......
+            //                       Obx(
+            //                             () {
+            //                           if (propertyController.loading.value) {
+            //                             return Center(
+            //                               child: SpinKitChasingDots(
+            //                                 color: Colors.red,
+            //                                 size: 50.0,
+            //                               ),
+            //                             );
+            //                           }
+            //                           return Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 10.0, left: 25, right: 25),
+            //                             child: Container(
+            //                               height: 70,
+            //                               decoration: BoxDecoration(
+            //                                 color: Colors.white,
+            //                               ),
+            //                               child: DropdownButtonHideUnderline(
+            //                                 child: DropdownButton(
+            //                                   isExpanded: true,
+            //                                   style: TextStyle(
+            //                                       color: Colors.black),
+            //                                   hint: Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 12.0),
+            //                                     child: Text(
+            //                                       "Rooms",
+            //                                       style: TextStyle(
+            //                                           color: Colors.black),
+            //                                     ),
+            //                                   ),
+            //                                   items: propertyController
+            //                                       .roomList
+            //                                       .map((element) {
+            //                                     return DropdownMenuItem(
+            //                                       value: element,
+            //                                       child: Padding(
+            //                                         padding:
+            //                                         const EdgeInsets.only(
+            //                                             left: 13.0),
+            //                                         child: Text(
+            //                                           element,
+            //                                           style: TextStyle(
+            //                                               color:
+            //                                               Colors.black),
+            //                                         ),
+            //                                       ),
+            //                                     );
+            //                                   }).toList(),
+            //                                   value: selectedRoom,
+            //                                   onChanged: (text) {
+            //                                     setState(() {
+            //                                       selectedRoom = text;
+            //                                     });
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           );
+            //                         },
+            //                       ),
+            //                       Obx(
+            //                             () {
+            //                           if (propertyController.loading.value) {
+            //                             return Center(
+            //                               child: SpinKitChasingDots(
+            //                                 color: Colors.red,
+            //                                 size: 50.0,
+            //                               ),
+            //                             );
+            //                           }
+            //                           return Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 10.0, left: 25, right: 25),
+            //                             child: Container(
+            //                               height: 70,
+            //                               decoration: BoxDecoration(
+            //                                 color: Colors.white,
+            //                               ),
+            //                               child: DropdownButtonHideUnderline(
+            //                                 child: DropdownButton(
+            //                                   isExpanded: true,
+            //                                   style: TextStyle(
+            //                                       color: Colors.black),
+            //                                   hint: Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 12.0),
+            //                                     child: Text(
+            //                                       "BathRooms",
+            //                                       style: TextStyle(
+            //                                           color: Colors.black),
+            //                                     ),
+            //                                   ),
+            //                                   items: propertyController
+            //                                       .bathRooms
+            //                                       .map((element) {
+            //                                     return DropdownMenuItem(
+            //                                       value: element,
+            //                                       child: Padding(
+            //                                         padding:
+            //                                         const EdgeInsets.only(
+            //                                             left: 13.0),
+            //                                         child: Text(
+            //                                           element,
+            //                                           style: TextStyle(
+            //                                               color:
+            //                                               Colors.black),
+            //                                         ),
+            //                                       ),
+            //                                     );
+            //                                   }).toList(),
+            //                                   value: selectBathRooms,
+            //                                   onChanged: (text) {
+            //                                     setState(() {
+            //                                       selectBathRooms = text;
+            //                                     });
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           );
+            //                         },
+            //                       ),
+            //                       Obx(
+            //                             () {
+            //                           if (propertyController.loading.value) {
+            //                             return Center(
+            //                               child: CircularProgressIndicator(),
+            //                             );
+            //                           }
+            //                           return Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 10.0, left: 25, right: 25),
+            //                             child: Container(
+            //                               height: 70,
+            //                               decoration: BoxDecoration(
+            //                                 color: Colors.white,
+            //                               ),
+            //                               child: DropdownButtonHideUnderline(
+            //                                 child: DropdownButton(
+            //                                   isExpanded: true,
+            //                                   style: TextStyle(
+            //                                       color: Colors.black),
+            //                                   hint: Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 12.0),
+            //                                     child: Text(
+            //                                       "Car Space",
+            //                                       style: TextStyle(
+            //                                           color: Colors.black),
+            //                                     ),
+            //                                   ),
+            //                                   items: propertyController
+            //                                       .carSpace
+            //                                       .map((element) {
+            //                                     return DropdownMenuItem(
+            //                                       value: element,
+            //                                       child: Padding(
+            //                                         padding:
+            //                                         const EdgeInsets.only(
+            //                                             left: 13.0),
+            //                                         child: Text(
+            //                                           element,
+            //                                           style: TextStyle(
+            //                                               color:
+            //                                               Colors.black),
+            //                                         ),
+            //                                       ),
+            //                                     );
+            //                                   }).toList(),
+            //                                   value: selectedCarSpace,
+            //                                   onChanged: (text) {
+            //                                     setState(() {
+            //                                       selectedCarSpace = text;
+            //                                     });
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           );
+            //                         },
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Expanded(
+            //                             child: Column(
+            //                               mainAxisAlignment:
+            //                               MainAxisAlignment.start,
+            //                               crossAxisAlignment:
+            //                               CrossAxisAlignment.start,
+            //                               children: [
+            //                                 Padding(
+            //                                   padding: const EdgeInsets.only(
+            //                                       left: 23.0, top: 10),
+            //                                   child: Container(
+            //                                     height: 70,
+            //                                     width: double.infinity,
+            //                                     child: TextFormField(
+            //                                       keyboardType:
+            //                                       TextInputType.number,
+            //                                       decoration: InputDecoration(
+            //                                         contentPadding:
+            //                                         EdgeInsets.only(
+            //                                             left: 59),
+            //                                         filled: true,
+            //                                         focusColor: Colors.white,
+            //                                         fillColor: Colors.white,
+            //                                         border:
+            //                                         OutlineInputBorder(
+            //                                           borderSide: BorderSide(
+            //                                             color: Colors.white,
+            //                                           ),
+            //                                           borderRadius:
+            //                                           BorderRadius
+            //                                               .circular(5),
+            //                                         ),
+            //                                         hintText: "0",
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ],
+            //                             ),
+            //                           ),
+            //                           Expanded(
+            //                             child: Padding(
+            //                               padding: const EdgeInsets.only(
+            //                                   right: 21, top: 10),
+            //                               child: Column(
+            //                                 children: [
+            //                                   Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 18.0),
+            //                                     child: Container(
+            //                                       height: 70,
+            //                                       width: double.infinity,
+            //                                       child: TextFormField(
+            //                                         // controller: passportTourController,
+            //                                         // //     controller: _controllers3[index],
+            //                                         //
+            //
+            //                                         decoration:
+            //                                         InputDecoration(
+            //                                           contentPadding:
+            //                                           EdgeInsets.only(
+            //                                               left: 49),
+            //                                           filled: true,
+            //                                           focusColor:
+            //                                           Colors.white,
+            //                                           fillColor: Colors.white,
+            //                                           border:
+            //                                           OutlineInputBorder(
+            //                                             borderSide:
+            //                                             BorderSide(
+            //                                               color: Colors.white,
+            //                                             ),
+            //                                             borderRadius:
+            //                                             BorderRadius
+            //                                                 .circular(5),
+            //                                           ),
+            //                                           hintText: "100",
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               ),
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 20,
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // )
+            //     : Container(
+            //   // height: 470,
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //         image: AssetImage('assets/images/hero.jpeg'),
+            //         fit: BoxFit.cover),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 28.0, bottom: 30),
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: <Widget>[
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 30.0, bottom: 5),
+            //           child: Wrap(
+            //             children: [
+            //               RaisedButton(
+            //                 color: currentSelectedValueRent == propertyRent
+            //                     ? Colors.black
+            //                     : Colors.red,
+            //                 onPressed: () {
+            //                   setState(() {
+            //                     currentSelectedValueRent = propertyRent;
+            //                   });
+            //                 },
+            //                 child: Text(
+            //                   "Rent",
+            //                   style: TextStyle(
+            //                       fontSize: 16, color: Colors.white),
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 width: 10,
+            //               ),
+            //               RaisedButton(
+            //                 color: currentSelectedValueRent == propertyBuy
+            //                     ? Colors.black
+            //                     : Colors.red,
+            //                 onPressed: () {
+            //                   setState(
+            //                         () {
+            //                       currentSelectedValueRent = propertyBuy;
+            //                     },
+            //                   );
+            //                 },
+            //                 child: Text(
+            //                   "Buy",
+            //                   style: TextStyle(
+            //                       fontSize: 16, color: Colors.white),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 20.0, right: 20),
+            //           child: Container(
+            //             // height: 360,
+            //             // width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(5),
+            //               color: Colors.black,
+            //             ),
+            //             child: Column(
+            //               children: [
+            //                 Obx(() {
+            //                   return Padding(
+            //                     padding: const EdgeInsets.only(
+            //                         left: 23.0, right: 23.0, top: 18),
+            //                     child: Container(
+            //                       height: 70,
+            //                       decoration: BoxDecoration(
+            //                           borderRadius: BorderRadius.circular(5),
+            //                           color: Colors.white),
+            //                       child: SearchableDropdown(
+            //                         hint: Padding(
+            //                           padding: const EdgeInsets.all(13.0),
+            //                           child: Text("Select City"),
+            //                         ),
+            //                         iconSize: 20,
+            //                         displayClearIcon: true,
+            //                         underline: Container(
+            //                           decoration: BoxDecoration(
+            //                               border: Border.all(
+            //                                   color: Colors.white)),
+            //                         ),
+            //                         items: propertyController
+            //                             .getProperty.value.states.values
+            //                             .map((e) {
+            //                           return DropdownMenuItem(
+            //                             child: Text(e.stateName),
+            //                             value: e.stateName,
+            //                           );
+            //                         }).toList(),
+            //                         value: selectedCity,
+            //                         onChanged: (value) {
+            //                           setState(() {
+            //                             selectedCity = value;
+            //                           });
+            //                         },
+            //                         isExpanded: true,
+            //                       ),
+            //                     ),
+            //                   );
+            //                 }),
+            //
+            //                 ///Pending......
+            //
+            //                 Obx(
+            //                       () {
+            //                     if (propertyController.loading.value) {
+            //                       return Center(
+            //                         child: CircularProgressIndicator(),
+            //                       );
+            //                     }
+            //                     return Padding(
+            //                       padding: const EdgeInsets.only(
+            //                           top: 10.0, left: 25, right: 25),
+            //                       child: Container(
+            //                         height: 70,
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.white,
+            //                         ),
+            //                         child: DropdownButtonHideUnderline(
+            //                           child: DropdownButton(
+            //                             underline: Container(
+            //                               height: 1,
+            //                               color: Colors.transparent,
+            //                             ),
+            //                             iconSize: 30,
+            //                             isExpanded: true,
+            //                             style: TextStyle(color: Colors.black),
+            //                             hint: Padding(
+            //                               padding: const EdgeInsets.only(
+            //                                   left: 10.0),
+            //                               child: Text(
+            //                                 " Select Area",
+            //                                 style: TextStyle(
+            //                                     color: Colors.black),
+            //                               ),
+            //                             ),
+            //                             items: propertyController
+            //                                 .getProperty.value.cities.values
+            //                                 .map((e) {
+            //                               return DropdownMenuItem(
+            //                                 child: Padding(
+            //                                   padding: const EdgeInsets.only(
+            //                                       left: 0.0),
+            //                                   child: Container(
+            //                                     child: ListTile(
+            //                                       title: Text(e.cityName),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                                 value: e.cityName,
+            //                               );
+            //                             }).toList(),
+            //                             value: selectArea,
+            //                             onChanged: (text) {
+            //                               setState(() {
+            //                                 selectArea = text;
+            //                               });
+            //                             },
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     );
+            //                   },
+            //                 ),
+            //
+            //                 //  Area ////////
+            //
+            //                 Obx(
+            //                       () {
+            //                     if (propertyController.loading.value) {
+            //                       return Center(
+            //                         child: SpinKitChasingDots(
+            //                           color: Colors.red,
+            //                           size: 50.0,
+            //                         ),
+            //                       );
+            //                     }
+            //                     return Padding(
+            //                       padding: const EdgeInsets.only(
+            //                           top: 10.0, left: 25, right: 25),
+            //                       child: Container(
+            //                         height: 70,
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.white,
+            //                         ),
+            //                         child: DropdownButtonHideUnderline(
+            //                           child: DropdownButton(
+            //                             iconSize: 35,
+            //                             isExpanded: true,
+            //                             style: TextStyle(color: Colors.black),
+            //                             hint: Padding(
+            //                               padding: const EdgeInsets.only(
+            //                                   left: 10.0),
+            //                               child: Text(
+            //                                 " Select Property Type",
+            //                                 style: TextStyle(
+            //                                     color: Colors.black),
+            //                               ),
+            //                             ),
+            //                             items: propertyController.propertyList
+            //                                 .map((element) {
+            //                               return DropdownMenuItem(
+            //                                 value: element,
+            //                                 child: Padding(
+            //                                   padding: const EdgeInsets.only(
+            //                                       left: 17.0),
+            //                                   child: Text(
+            //                                     element,
+            //                                     style: TextStyle(
+            //                                         color: Colors.black),
+            //                                   ),
+            //                                 ),
+            //                               );
+            //                             }).toList(),
+            //                             value: selectProperty,
+            //                             onChanged: (text) {
+            //                               setState(() {
+            //                                 selectProperty = text;
+            //                               });
+            //                             },
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     );
+            //                   },
+            //                 ),
+            //                 SizedBox(
+            //                   height: 15,
+            //                 ),
+            //
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(
+            //                       left: 28.0, right: 28),
+            //                   child: Container(
+            //                     height: 50,
+            //                     width: double.infinity,
+            //                     child: ElevatedButton(
+            //                       onPressed: () {
+            //                         searchController.getSaerchDataCalling(
+            //                           propertyBuy,
+            //                           selectedCity,
+            //                           selectArea,
+            //                           selectProperty,
+            //                           selectedCarSpace,
+            //                           selectBathRooms,
+            //                           selectedRoom,
+            //                         );
+            //                         // searchController.searchService.fetchSearchData(
+            //                         //   buycat_id,
+            //                         //   selectedCity,
+            //                         //   selectArea,
+            //                         //   selectProperty,
+            //                         //   selectedCarSpace,
+            //                         //   selectBathRooms,
+            //                         //   selectedRoom,
+            //                         //
+            //                         //
+            //                         //
+            //                         // );
+            //                         Get.to(SearchScreen(),
+            //                             transition: Transition.zoom);
+            //                       },
+            //                       style: ButtonStyle(
+            //                         backgroundColor:
+            //                         MaterialStateProperty.all<Color>(
+            //                             Colors.red),
+            //                       ),
+            //                       child: Text(
+            //                         "Search",
+            //                         style: TextStyle(fontSize: 20),
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //
+            //                 SizedBox(
+            //                   height: 10,
+            //                 ),
+            //                 Row(
+            //                   children: [
+            //                     InkWell(
+            //                       onTap: () {
+            //                         setState(() {
+            //                           isVisible = !isVisible;
+            //                         });
+            //                       },
+            //                       child: Row(
+            //                         children: [
+            //                           Padding(
+            //                             padding:
+            //                             const EdgeInsets.only(left: 30.0),
+            //                             child: Text(
+            //                               "Advance Search",
+            //                               style: TextStyle(
+            //                                   fontSize: 15,
+            //                                   color: Colors.white),
+            //                             ),
+            //                           ),
+            //                           Icon(
+            //                             isVisible
+            //                                 ? Icons
+            //                                 .keyboard_arrow_down_rounded
+            //                                 : Icons
+            //                                 .keyboard_arrow_up_outlined,
+            //                             color: Colors.white,
+            //                           ),
+            //                           // Spacer(),
+            //                           // Padding(
+            //                           //   padding: const EdgeInsets.only(right: 30.0),
+            //                           //   child: Text(
+            //                           //     "Reset Search",
+            //                           //     style: TextStyle(
+            //                           //         fontSize: 14, color: Colors.white),
+            //                           //   ),
+            //                           // ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                     SizedBox(
+            //                       width: 30,
+            //                     ),
+            //                     TextButton(
+            //                       onPressed: () {
+            //                         // setState(() {
+            //                         //   // selectArea = '';
+            //                         //   // selectProperty = '';
+            //                         //   // selectBathRooms = '';
+            //                         //   // selectedCarSpace = '';
+            //                         //   // selectedRoom = '';
+            //                         //   // selectedValue = '';
+            //                         // });
+            //                       },
+            //                       child: Text(
+            //                         "Reset Search",
+            //                         style: TextStyle(
+            //                             fontSize: 15, color: Colors.white),
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 SizedBox(
+            //                   height: 10,
+            //                 ),
+            //                 Visibility(
+            //                   visible: isVisible,
+            //                   child: Column(
+            //                     children: [
+            //                       //Rooms......Advance Search......
+            //                       Obx(
+            //                             () {
+            //                           if (propertyController.loading.value) {
+            //                             return Center(
+            //                               child: SpinKitChasingDots(
+            //                                 color: Colors.red,
+            //                                 size: 50.0,
+            //                               ),
+            //                             );
+            //                           }
+            //                           return Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 10.0, left: 25, right: 25),
+            //                             child: Container(
+            //                               height: 70,
+            //                               decoration: BoxDecoration(
+            //                                 color: Colors.white,
+            //                               ),
+            //                               child: DropdownButtonHideUnderline(
+            //                                 child: DropdownButton(
+            //                                   isExpanded: true,
+            //                                   style: TextStyle(
+            //                                       color: Colors.black),
+            //                                   hint: Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 12.0),
+            //                                     child: Text(
+            //                                       "Rooms",
+            //                                       style: TextStyle(
+            //                                           color: Colors.black),
+            //                                     ),
+            //                                   ),
+            //                                   items: propertyController
+            //                                       .roomList
+            //                                       .map((element) {
+            //                                     return DropdownMenuItem(
+            //                                       value: element,
+            //                                       child: Padding(
+            //                                         padding:
+            //                                         const EdgeInsets.only(
+            //                                             left: 13.0),
+            //                                         child: Text(
+            //                                           element,
+            //                                           style: TextStyle(
+            //                                               color:
+            //                                               Colors.black),
+            //                                         ),
+            //                                       ),
+            //                                     );
+            //                                   }).toList(),
+            //                                   value: selectedRoom,
+            //                                   onChanged: (text) {
+            //                                     setState(() {
+            //                                       selectedRoom = text;
+            //                                     });
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           );
+            //                         },
+            //                       ),
+            //                       Obx(
+            //                             () {
+            //                           if (propertyController.loading.value) {
+            //                             return Center(
+            //                               child: SpinKitChasingDots(
+            //                                 color: Colors.red,
+            //                                 size: 50.0,
+            //                               ),
+            //                             );
+            //                           }
+            //                           return Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 10.0, left: 25, right: 25),
+            //                             child: Container(
+            //                               height: 70,
+            //                               decoration: BoxDecoration(
+            //                                 color: Colors.white,
+            //                               ),
+            //                               child: DropdownButtonHideUnderline(
+            //                                 child: DropdownButton(
+            //                                   isExpanded: true,
+            //                                   style: TextStyle(
+            //                                       color: Colors.black),
+            //                                   hint: Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 12.0),
+            //                                     child: Text(
+            //                                       "BathRooms",
+            //                                       style: TextStyle(
+            //                                           color: Colors.black),
+            //                                     ),
+            //                                   ),
+            //                                   items: propertyController
+            //                                       .bathRooms
+            //                                       .map((element) {
+            //                                     return DropdownMenuItem(
+            //                                       value: element,
+            //                                       child: Padding(
+            //                                         padding:
+            //                                         const EdgeInsets.only(
+            //                                             left: 13.0),
+            //                                         child: Text(
+            //                                           element,
+            //                                           style: TextStyle(
+            //                                               color:
+            //                                               Colors.black),
+            //                                         ),
+            //                                       ),
+            //                                     );
+            //                                   }).toList(),
+            //                                   value: selectBathRooms,
+            //                                   onChanged: (text) {
+            //                                     setState(() {
+            //                                       selectBathRooms = text;
+            //                                     });
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           );
+            //                         },
+            //                       ),
+            //                       Obx(
+            //                             () {
+            //                           if (propertyController.loading.value) {
+            //                             return Center(
+            //                               child: CircularProgressIndicator(),
+            //                             );
+            //                           }
+            //                           return Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 10.0, left: 25, right: 25),
+            //                             child: Container(
+            //                               height: 70,
+            //                               decoration: BoxDecoration(
+            //                                 color: Colors.white,
+            //                               ),
+            //                               child: DropdownButtonHideUnderline(
+            //                                 child: DropdownButton(
+            //                                   isExpanded: true,
+            //                                   style: TextStyle(
+            //                                       color: Colors.black),
+            //                                   hint: Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 12.0),
+            //                                     child: Text(
+            //                                       "Car Space",
+            //                                       style: TextStyle(
+            //                                           color: Colors.black),
+            //                                     ),
+            //                                   ),
+            //                                   items: propertyController
+            //                                       .carSpace
+            //                                       .map((element) {
+            //                                     return DropdownMenuItem(
+            //                                       value: element,
+            //                                       child: Padding(
+            //                                         padding:
+            //                                         const EdgeInsets.only(
+            //                                             left: 13.0),
+            //                                         child: Text(
+            //                                           element,
+            //                                           style: TextStyle(
+            //                                               color:
+            //                                               Colors.black),
+            //                                         ),
+            //                                       ),
+            //                                     );
+            //                                   }).toList(),
+            //                                   value: selectedCarSpace,
+            //                                   onChanged: (text) {
+            //                                     setState(() {
+            //                                       selectedCarSpace = text;
+            //                                     });
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           );
+            //                         },
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Expanded(
+            //                             child: Column(
+            //                               mainAxisAlignment:
+            //                               MainAxisAlignment.start,
+            //                               crossAxisAlignment:
+            //                               CrossAxisAlignment.start,
+            //                               children: [
+            //                                 Padding(
+            //                                   padding: const EdgeInsets.only(
+            //                                       left: 23.0, top: 10),
+            //                                   child: Container(
+            //                                     height: 70,
+            //                                     width: double.infinity,
+            //                                     child: TextFormField(
+            //                                       keyboardType:
+            //                                       TextInputType.number,
+            //                                       decoration: InputDecoration(
+            //                                         contentPadding:
+            //                                         EdgeInsets.only(
+            //                                             left: 59),
+            //                                         filled: true,
+            //                                         focusColor: Colors.white,
+            //                                         fillColor: Colors.white,
+            //                                         border:
+            //                                         OutlineInputBorder(
+            //                                           borderSide: BorderSide(
+            //                                             color: Colors.white,
+            //                                           ),
+            //                                           borderRadius:
+            //                                           BorderRadius
+            //                                               .circular(5),
+            //                                         ),
+            //                                         hintText: "0",
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ],
+            //                             ),
+            //                           ),
+            //                           Expanded(
+            //                             child: Padding(
+            //                               padding: const EdgeInsets.only(
+            //                                   right: 21, top: 10),
+            //                               child: Column(
+            //                                 children: [
+            //                                   Padding(
+            //                                     padding:
+            //                                     const EdgeInsets.only(
+            //                                         left: 18.0),
+            //                                     child: Container(
+            //                                       height: 70,
+            //                                       width: double.infinity,
+            //                                       child: TextFormField(
+            //                                         // controller: passportTourController,
+            //                                         // //     controller: _controllers3[index],
+            //                                         //
+            //
+            //                                         decoration:
+            //                                         InputDecoration(
+            //                                           contentPadding:
+            //                                           EdgeInsets.only(
+            //                                               left: 49),
+            //                                           filled: true,
+            //                                           focusColor:
+            //                                           Colors.white,
+            //                                           fillColor: Colors.white,
+            //                                           border:
+            //                                           OutlineInputBorder(
+            //                                             borderSide:
+            //                                             BorderSide(
+            //                                               color: Colors.white,
+            //                                             ),
+            //                                             borderRadius:
+            //                                             BorderRadius
+            //                                                 .circular(5),
+            //                                           ),
+            //                                           hintText: "100",
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               ),
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 20,
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            SizedBox(
+              height: 24,
+            ),
+
+
+
+            SizedBox(
+              height: 24,
+            ),
+          ],
+        ),
+      ) :  SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0, bottom: 5, top: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left:17.0),
+                    // ignore: deprecated_member_use
+                    child: RaisedButton(
+                      color: currentSelectedValueRent == propertyRent
+                          ? HexColor("#bae6c0")
+                          : Colors.white,
+                      onPressed: () {
+                        setState(() {
+                          currentSelectedValueRent = propertyRent;
+                        });
+                      },
+                      child: Text(
+                        "         Rent         ",
+                        style: TextStyle(fontSize: 16, color: Colors.green[700]),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 100,
+                  ),
+                  RaisedButton(
+                    color: currentSelectedValueRent == propertyBuy
+                        ? HexColor("#bae6c0")
+                        : Colors.white,
+                    onPressed: () {
+                      setState(
+                            () {
+                          currentSelectedValueRent = propertyBuy;
+                        },
+                      );
+                    },
+                    child: Text(
+                      "         Buy         ",
+                      style: TextStyle(fontSize: 16, color: Colors.green[700]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
+            // Obx((){
+            //   if(propertyController.loading.value){
+            //     return Center(child: CircularProgressIndicator(),);
+            //   }
+            //   return  searchTextField = AutoCompleteTextField<StateData>(
+            //     key: key,
+            //     clearOnSubmit: false,
+            //     onFocusChanged: (dff){},
+            //     suggestions: state,
+            //     style: TextStyle(color: Colors.black, fontSize: 16.0),
+            //     decoration: InputDecoration(
+            //       contentPadding: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+            //       hintText: "Search Name",
+            //       hintStyle: TextStyle(color: Colors.black),
+            //     ),
+            //     itemFilter: (item, query) {
+            //       return item.stateName.toLowerCase().startsWith(query.toLowerCase());
+            //     },
+            //     itemSorter: (a, b) {
+            //       return a.stateName.compareTo(b.stateName);
+            //     },
+            //     itemSubmitted: (item) {
+            //       setState(() {
+            //         searchTextField.textField.controller.text = item.stateName;
+            //       });
+            //     },
+            //     itemBuilder: (context, item) {
+            //       return Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: <Widget>[
+            //           ListTile(
+            //             title:Text(item.stateName),
+            //           )
+            //         ],
+            //       );
+            //     },
+            //   );
+            // }),
+
+            Obx(
+                  () {
+                return Padding(
+                  padding:
+                  const EdgeInsets.only(left: 15.0, right: 27.0, top: 8),
+                  child: Container(
+                    height: 65,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white),
+                    child: SearchableDropdown(
+                      hint: Padding(
+                        padding: const EdgeInsets.all(13.0),
+                        child: Text("Select City"),
+                      ),
+                      iconSize: 20,
+                      displayClearIcon: true,
+                      underline: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white)),
+                      ),
+                      items: propertyController.getProperty.value.states.values
+                          .map((e) {
+                        return DropdownMenuItem(
+                          child: Text(e.stateName),
+                          value: e.stateName,
+                        );
+                      }).toList(),
+                      value: selectedCity,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCity = value;
+                        });
+                      },
+                      isExpanded: true,
+                    ),
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Obx(
+                  () {
+                if (propertyController.loading.value) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Padding(
+                  padding:
+                  const EdgeInsets.only(top: 10.0, left: 15, right: 25),
+                  child: Container(
+                    height: 65,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        underline: Container(
+                          height: 1,
+                          color: Colors.transparent,
+                        ),
+                        iconSize: 30,
+                        isExpanded: true,
+                        style: TextStyle(color: Colors.black),
+                        hint: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Text(
+                            " Select Area",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        items: propertyController
+                            .getProperty.value.cities.values
+                            .map((e) {
+                          return DropdownMenuItem(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0.0),
+                              child: Container(
+                                child: ListTile(
+                                  title: Text(e.cityName),
+                                ),
+                              ),
+                            ),
+                            value: e.cityName,
+                          );
+                        }).toList(),
+                        value: selectArea,
+                        onChanged: (text) {
+                          setState(() {
+                            selectArea = text;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              height: 13,
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+
+                        Text(
+                          "Property Types",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                  ),
+                  Obx(
+                        () {
+                      if (propertyController.loading.value) {
+                        return Center(
+                          child: SpinKitCircle(
+                            color: Colors.green[800],
+                            size: 40,
+                          ),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: Container(
+                          height: 60,
+                          width: double.infinity,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            primary: false,
+                            itemCount: propertyController.propertyList.length,
+                            itemBuilder: (_, index) {
+                              var aparetMent =
+                              propertyController.propertyList[index];
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    currentSelectedValueProperty = aparetMent;
+                                    if (selected == index) {
+                                      selected = -1;
+                                    } else {
+                                      selected = index;
+                                    }
+                                    print(
+                                        "Property....${currentSelectedValueProperty}");
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  margin: EdgeInsets.all(10),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: selected == index
+                                          ? Colors.green[800]
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                      shape: BoxShape.rectangle),
+                                  child: Text(
+                                    aparetMent,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+
+            Divider(
+              color: Colors.grey,
+            ),
+
+            // Rooms...
+
+            SizedBox(
+              height: 8,
+            ),
+
+            //BathRooms..
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+
+                        Text(
+                          "Rooms",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                  ),
+                  Obx(
+                        () {
+                      if (propertyController.loading.value) {
+                        return Center(
+                          child: SpinKitCircle(
+                            color: Colors.green[800],
+                            size: 40,
+                          ),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 2.0, top: 10),
+                        child: Container(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            primary: false,
+                            itemCount: propertyController.roomList.length,
+                            itemBuilder: (_, index) {
+                              var room = propertyController.roomList[index];
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (selected1 == index) {
+                                      selected1 = -1;
+                                    } else {
+                                      selected1 = index;
+                                    }
+                                    currentSelectedValueRoom = room;
+                                    print("Room ${currentSelectedValueRoom}");
+                                    print("Room  ${room}");
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 14.0, left: 14),
+                                  child: Container(
+                                    padding: EdgeInsets.all(15),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: selected1 == index
+                                          ? Colors.green[800]
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                      shape: BoxShape.rectangle,
+                                    ),
+                                    child: Text(
+                                      room,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            // Rooms...
+            Divider(
+              color: Colors.grey,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+
+                        Text(
+                          "Bathrooms",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                  ),
+                  Obx(
+                        () {
+                      if (propertyController.loading.value) {
+                        return Center(
+                          child: SpinKitCircle(
+                            color: Colors.green[800],
+                            size: 40,
+                          ),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 2.0, top: 10),
+                        child: Container(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            primary: false,
+                            itemCount: propertyController.bathRooms.length,
+                            itemBuilder: (_, index) {
+                              var bath = propertyController.bathRooms[index];
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (selected2 == index) {
+                                      selected2 = -1;
+                                    } else {
+                                      selected2 = index;
+                                    }
+                                    currentSelectedValueBathroom = bath;
+                                    print(
+                                        "BathRooms ${currentSelectedValueBathroom}");
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 14.0, left: 14),
+                                  child: Container(
+                                    padding: EdgeInsets.all(15),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: selected2 == index
+                                            ? Colors.green[800]
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.circular(5),
+                                        shape: BoxShape.rectangle),
+                                    child: Text(
+                                      bath,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            // Rooms...
+            Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+
                         Text(
                           "Car Space",
                           style: TextStyle(

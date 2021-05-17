@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:html_character_entities/html_character_entities.dart';
+import 'package:suuq_somali/Profile/constant.dart';
 
 class AllAdsDetailsPage extends StatelessWidget {
   final String image;
@@ -16,8 +17,8 @@ class AllAdsDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color(0xFFFFFFFF),
+        iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: HexColor("#dc3545"),
         elevation: 1,
         centerTitle: true,
         title: Padding(
@@ -26,7 +27,7 @@ class AllAdsDetailsPage extends StatelessWidget {
             HtmlCharacterEntities.decode(appBarTitle,),
             style: TextStyle(
                 fontSize: 18,
-                color: Colors.black,
+                color: Colors.white,
                ),
           ),)
         ),
@@ -63,7 +64,7 @@ class AllAdsDetailsPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 12.0, top: 15),
             child: Text(
-              "Sl. Sh $price",
+              "\$ $price",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -78,10 +79,7 @@ class AllAdsDetailsPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15,),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("More Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-          ),
+
 
         ],
       ),

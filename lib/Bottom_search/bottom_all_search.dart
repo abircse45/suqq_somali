@@ -36,59 +36,59 @@ class _Search extends State<Search> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 6, top: 10),
-              child: Container(
-                height: 50,
-                child: TextField(
-                  textInputAction: TextInputAction.search,
-                  //   FocusNode: focusNode,
-                  autofocus: true,
-                  onChanged: (val) {
-                    setState(() {
-                      searchS = val;
-                    });
-                  },
-                  onSubmitted: (val) {
-        setState(() {
-          searchData.getDataCalling(searchS);
-          searchData.allSearchLoading(true);
-        });
-                  },
-                  decoration: InputDecoration(
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            searchData.getDataCalling(searchS);
-                            searchData.allSearchLoading(true);
-                          });
-                          Padding(
-                            padding: const EdgeInsets.only(top: 38.0),
-                            child: Center(
-                              child: SpinKitRing(
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Icon(Icons.search),
-                      ),
-                    ),
-                    hintText: "Search",
-                    contentPadding: EdgeInsets.only(top: 8, left: 20),
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+        //     Padding(
+        //       padding: const EdgeInsets.only(left: 10.0, right: 6, top: 10),
+        //       child: Container(
+        //         height: 50,
+        //         child: TextField(
+        //           textInputAction: TextInputAction.search,
+        //           //   FocusNode: focusNode,
+        //           autofocus: true,
+        //           onChanged: (val) {
+        //             setState(() {
+        //               searchS = val;
+        //             });
+        //           },
+        //           onSubmitted: (val) {
+        // setState(() {
+        //   searchData.getDataCalling(searchS);
+        //   searchData.allSearchLoading(true);
+        // });
+        //           },
+        //           decoration: InputDecoration(
+        //             suffixIcon: Padding(
+        //               padding: const EdgeInsets.only(right: 8.0),
+        //               child: GestureDetector(
+        //                 onTap: () {
+        //                   setState(() {
+        //                     searchData.getDataCalling(searchS);
+        //                     searchData.allSearchLoading(true);
+        //                   });
+        //                   Padding(
+        //                     padding: const EdgeInsets.only(top: 38.0),
+        //                     child: Center(
+        //                       child: SpinKitRing(
+        //                         color: Colors.red,
+        //                         size: 30,
+        //                       ),
+        //                     ),
+        //                   );
+        //                 },
+        //                 child: Icon(Icons.search),
+        //               ),
+        //             ),
+        //             hintText: "Search",
+        //             contentPadding: EdgeInsets.only(top: 8, left: 20),
+        //             fillColor: Colors.white,
+        //             filled: true,
+        //             border: OutlineInputBorder(
+        //               borderSide: BorderSide.none,
+        //               borderRadius: BorderRadius.circular(18),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
             SizedBox(
               height: 5,
             ),

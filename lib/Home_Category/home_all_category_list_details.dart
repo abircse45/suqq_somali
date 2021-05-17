@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:suuq_somali/Profile/constant.dart';
 
 class HomeAllCategoryListDetails extends StatelessWidget {
   final String image;
@@ -14,25 +15,18 @@ class HomeAllCategoryListDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color(0xFFFFFFFF),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: HexColor("#dc3545"),
         elevation: 1,
         centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Image.asset(
-            "assets/images/suuq_logo.png",
-            height: 90,
-            width: 170,
-          ),
-        ),
+        title: Text(title,style: TextStyle(fontSize: 15,color: Colors.white),),
       ),
       body: ListView(
         shrinkWrap: true,
         primary: false,
         children: [
           Container(
-            height: 250,
+            height: 200,
             child: Swiper(
               scrollDirection: Axis.horizontal,
               //  autoplay: true,
@@ -53,14 +47,14 @@ class HomeAllCategoryListDetails extends StatelessWidget {
             padding: const EdgeInsets.only(left: 12.0, top: 15),
             child: Text(
               title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 12.0, top: 15),
             child: Text(
-              "Sl. Sh ${price}",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              "\$${price}",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
@@ -70,18 +64,17 @@ class HomeAllCategoryListDetails extends StatelessWidget {
             ),
             child: Text(
               description,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 16),
             ),
           ),
           SizedBox(height: 15,),
+
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("More Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Condition :",style: TextStyle(fontSize: 20),),
-          ),
+            padding: const EdgeInsets.only(left:12.0),
+            child: Text("More Details",style: TextStyle(fontSize: 18),),
+          )
+
+
         ],
       ),
     );

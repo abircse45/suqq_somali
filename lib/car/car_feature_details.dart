@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:get/route_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:suuq_somali/Profile/constant.dart';
 import 'package:suuq_somali/property/conatct_us_details_property.dart';
+import 'package:suuq_somali/widget/report_ad_page.dart';
 
-class CarFeatureDetails extends StatelessWidget {
+class CarFeatureDetails extends StatefulWidget {
   final String image;
   final String title;
   final String price;
@@ -17,39 +20,76 @@ class CarFeatureDetails extends StatelessWidget {
   final String color;
   final String condition;
   final String milage;
-  const CarFeatureDetails(
-      {Key key,
-      this.image,
-      this.title,
-      this.price,
-      this.description,
-      this.listingAddress,
-      this.catNamePropertyForBuy,
-        this.typeOfCar,
-        this.transmission,
-        this.modelYear,
-        this.color,
-        this.condition,
-        this.milage,
+  final String location;
+  final int submissionDate;
+  const CarFeatureDetails({
+    Key key,
+    this.image,
+    this.title,
+    this.price,
+    this.description,
+    this.listingAddress,
+    this.catNamePropertyForBuy,
+    this.typeOfCar,
+    this.transmission,
+    this.modelYear,
+    this.color,
+    this.condition,
+    this.milage,
+    this.location,
+    this.submissionDate,
+  }) : super(key: key);
 
+  @override
+  _CarFeatureDetailsState createState() => _CarFeatureDetailsState();
+}
 
-      })
-      : super(key: key);
+class _CarFeatureDetailsState extends State<CarFeatureDetails> {
+  var now = new DateTime.now();
+  var formatter = new DateFormat('MM');
+  String readTimestamp(int timestamp) {
+    var now = new DateTime.now();
+    var format = new DateFormat('HH:mm a');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp);
+    var diff = date.difference(now);
+    var time = '';
 
+    if (diff.inSeconds <= 0 || diff.inSeconds > 0 && diff.inMinutes == 0 || diff.inMinutes > 0 && diff.inHours == 0 || diff.inHours > 0 && diff.inDays == 0) {
+      time = format.format(date); // Doesn't get called when it should be
+    } else {
+      time = diff.inDays.toString() + 'DAYS AGO'; // Gets call and it's wrong date
+    }
+
+    return time;
+  }
+
+  DateTime convertTimeStampToDateTime(int timeStamp) {
+    var dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    return dateToTimeStamp;
+  }
+
+  String convertTimeStampToHumanDate(int timeStamp) {
+    var dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    return DateFormat('dd/MM/yyyy').format(dateToTimeStamp);
+  }
+
+  String convertTimeStampToHumanHour(int timeStamp) {
+    var dateToTimeStamp = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    return DateFormat('HH:mm').format(dateToTimeStamp);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Card(
-        elevation: 3,
-        child: Container(
-          height: 80,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0, top: 15),
+      bottomNavigationBar: Container(
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 4, right: 3),
                 child: Container(
-                  height: 45,
+                  height: 50,
                   child: ElevatedButton(
                     onPressed: () {
                       Get.to(ContactUsScreen(), transition: Transition.zoom);
@@ -64,11 +104,13 @@ class CarFeatureDetails extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0, top: 15),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(),
                 child: Container(
-                  height: 45,
-                  width: 120,
+                  padding: const EdgeInsets.only(left: 4, right: 3),
+                  height: 50,
                   child: ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(
@@ -77,26 +119,20 @@ class CarFeatureDetails extends StatelessWidget {
                       child: Icon(Icons.phone_enabled_rounded)),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFFFFF),
-        elevation: 0.0,
-        centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Image.asset(
-            "assets/images/suuq_logo.png",
-            height: 90,
-            width: 140,
-          ),
-        ),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: HexColor("#dc3545"),
+        elevation: 1,
+        title: Text("Details"),
+
         leading: new IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -105,12 +141,12 @@ class CarFeatureDetails extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.share),
             onPressed: () {},
-            color: Colors.black,
+            color: Colors.white,
           ),
           IconButton(
             icon: Icon(Icons.favorite_border),
             onPressed: () {},
-            color: Colors.black,
+            color: Colors.white,
           ),
         ],
       ),
@@ -119,34 +155,221 @@ class CarFeatureDetails extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 250,
-            child: Swiper(
-              scrollDirection: Axis.horizontal,
-              //  autoplay: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Image.network(
-                  image,
-                  fit: BoxFit.fill,
-                  height: 200,
-                  width: 100,
-                );
-              },
-              itemCount: image.length,
-              // /   pagination: new SwiperPagination(),
-              control: new SwiperControl(color: Colors.black),
+            decoration: BoxDecoration(color: Colors.grey[200]),
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(color: Colors.black12),
+                alignment: Alignment.center,
+                height: 200,
+                width: 300,
+                child: Swiper(
+                  scrollDirection: Axis.horizontal,
+                  //  autoplay: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Stack(
+                      children: [
+
+                        Image.network(
+                          widget.image,
+                          fit: BoxFit.cover,
+                          height: 200,
+                          width: 300,
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top:150.0,right: 85),
+                                child: Image.asset("assets/images/spp.png",height: 40,color: Colors.white,),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                  itemCount: widget.image.length,
+                  // /   pagination: new SwiperPagination(),
+                  control: new SwiperControl(color: Colors.white),
+                ),
+              ),
             ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, top: 15),
+            child: Text(
+              widget.title,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 15),
+                child: Text(
+                  " Posted on ${convertTimeStampToHumanDate(widget.submissionDate)} ${readTimestamp(widget.submissionDate)}",
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: 12.0, top: 15),
             child: Text(
-              title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              widget.location.toString(),
+              maxLines: 2,
+              style: TextStyle(fontSize: 15),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, top: 15),
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Divider(
+              indent: 10,
+              endIndent: 20,
+              thickness: 1,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, top: 10),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "\$ ${widget.price}",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: "           Negotiable",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Divider(
+              indent: 10,
+              endIndent: 20,
+              thickness: 1,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 6),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: Row(
+                    children: [
+
+                      Text(
+                          " Types of car :           ${widget.typeOfCar}"),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0, top: 3),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                            "Color                           ${widget.color}"),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0, top: 3),
+                  child: Row(
+                    children: [
+
+                      Text(
+                          " Transmission:         ${widget.transmission ?? ""}"),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0, top: 8),
+                  child: Column(
+                    // mainAxisAlignment:
+                    //     MainAxisAlignment.start,
+                    // crossAxisAlignment:
+                    //     CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        // mainAxisAlignment:
+                        //     MainAxisAlignment.start,
+                        // crossAxisAlignment:
+                        //     CrossAxisAlignment.start,
+                        children: [
+
+                          Text(
+                              "  Condition:                           ${widget.condition ?? ""}"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 9,
+                      ),
+                      Row(
+                        children: [
+
+                          Text(
+                              "  Model Year:                      ${widget.modelYear}"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 2.0, right: 3, top: 8),
+                        child: Row(
+                          children: [
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4.0),
+                              child: Text(
+                                  " Milage:                     ${widget.milage}"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Divider(
+              indent: 10,
+              endIndent: 20,
+              thickness: 1,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, top: 10),
             child: Text(
-              "Sl. Sh ${price}",
+              "Type : ${widget.catNamePropertyForBuy.toString()}",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -154,241 +377,384 @@ class CarFeatureDetails extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, top: 15),
-            child: Text(
-              "${catNamePropertyForBuy.toString()}",
-              style: TextStyle(
-                fontSize: 18,
-              ),
+            padding: const EdgeInsets.only(left: 12.0, top: 10),
+            child: RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                    text: "Description",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black)),
+                TextSpan(
+                    text: "        ${widget.description}",
+                    style: TextStyle(fontSize: 16, color: Colors.black)),
+              ]),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, top: 15),
-            child: Text(
-              description,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            padding: const EdgeInsets.only(left: 12.0, top: 15, right: 15),
+            child: Text(widget.listingAddress),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, top: 15),
-            child: Text(listingAddress),
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Divider(
+              indent: 10,
+              endIndent: 20,
+              thickness: 1,
+            ),
           ),
-       Padding(
-              padding: const EdgeInsets.only(left: 5.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, top: 15, bottom: 8),
-                        child: Text(
-                          "More Details",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  color: Colors.red,
-                                ),
-                                Text(" Type of car:$typeOfCar"),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.tour,
-                                  color: Colors.red,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(" Transmission:$transmission"),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.keyboard,
-                                  color: Colors.red,
-                                ),
-                                Text(" Model Year:${modelYear ?? ""}"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: Column(
-                          // mainAxisAlignment:
-                          //     MainAxisAlignment.start,
-                          // crossAxisAlignment:
-                          //     CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              // mainAxisAlignment:
-                              //     MainAxisAlignment.start,
-                              // crossAxisAlignment:
-                              //     CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  color: Colors.red,
-                                ),
-                                Text("Color: $color"),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: Icon(
-                                      Icons.adb_sharp,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  Text("Condition: ${condition ?? ""}"),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 2.0, right: 3),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.border_style,
-                                    color: Colors.red,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 4.0),
-                                    child: Text("Mileage: $milage"),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                ],
-              ),
-            ),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 12.0, top: 15),
-            child: Text(
-              "Reviews",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+          SizedBox(
+            height: 20,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      "assets/images/review.jpg",
-                      height: 40,
-                      width: 50,
-                    ),
-                  ],
-                ),
-              ),
+              Icon(Icons.close),
               SizedBox(
-                width: 30,
+                width: 8,
               ),
-              Column(
-                children: [
-                  Text(
-                    "Admin",
-                    style: TextStyle(fontSize: 15),
+              GestureDetector(
+                onTap: () {
+                  Get.to(ReportAddScreen(), transition: Transition.zoom);
+                },
+                child: Container(
+                  child: Text(
+                    "Report This Ad",
+                    style: TextStyle(fontSize: 16),
                   ),
-                  SmoothStarRating(
-                      allowHalfRating: false,
-                      onRated: (v) {},
-                      starCount: 5,
-                      rating: 3,
-                      size: 20.0,
-                      isReadOnly: true,
-                      color: Colors.green,
-                      borderColor: Colors.green,
-                      spacing: 0.0),
-                  Text(
-                    "March 17, 2021",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
           SizedBox(
             height: 10,
           ),
-          Divider(
-            thickness: 2,
-            indent: 10,
-            endIndent: 10,
-            color: Colors.grey,
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Divider(
+              indent: 10,
+              endIndent: 20,
+              thickness: 1,
+            ),
           ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/ddd.png",
+                height: 30,
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              GestureDetector(
+                onTap: () {
+                  _dialougeStaySafe();
+                },
+                child: Container(
+                  child: Text(
+                    "Stay safe on Suuq!",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 100,
+          ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 12.0, top: 15),
+          //   child: Text(
+          //     "Reviews",
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   ),
+          // ),
+          // Row(
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.only(left: 12.0),
+          //       child: Row(
+          //         children: [
+          //           Image.asset(
+          //             "assets/images/review.jpg",
+          //             height: 40,
+          //             width: 50,
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     SizedBox(
+          //       width: 30,
+          //     ),
+          //     Column(
+          //       children: [
+          //         Text(
+          //           "Admin",
+          //           style: TextStyle(fontSize: 15),
+          //         ),
+          //         SmoothStarRating(
+          //             allowHalfRating: false,
+          //             onRated: (v) {},
+          //             starCount: 5,
+          //             rating: 3,
+          //             size: 20.0,
+          //             isReadOnly: true,
+          //             color: Colors.green,
+          //             borderColor: Colors.green,
+          //             spacing: 0.0),
+          //         Text(
+          //           "March 17, 2021",
+          //           style: TextStyle(fontSize: 15),
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Divider(
+          //   thickness: 2,
+          //   indent: 10,
+          //   endIndent: 10,
+          //   color: Colors.grey,
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
           SizedBox(
             height: 10,
           ),
-          SizedBox(
-            height: 30,
-          ),
         ],
       ),
+    );
+  }
+  _dialougeStaySafe() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            ('Stay safe on Suuq.com'),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      ". ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      "Always meet the seller in person",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      ". ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      "Don't pay for anything untill you have\n seen what you are getting",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18.0),
+                      child: Text(
+                        ". ",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Text(
+                      "Don't send or write money to anyone\n you don't know.",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Text(
+                    "Watch out for:",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      ". ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      "Unrealistic prices",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      ". ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      "Extra fees",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      ". ",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      "Request for advanced payment",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 1.0),
+                      child: Text(
+                        ". ",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Text(
+                      "request for personal information.",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     GestureDetector(
+                //       child: Container(
+                //         child: Text(
+                //           "More on staying safe  ",
+                //           style: TextStyle(fontSize: 14,color: Colors.red),
+                //         ),
+                //       ),
+                //     ),
+                //     Icon(Icons.arrow_forward_ios_rounded,color: Colors.red,size: 20,),
+                //   ],
+                // )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

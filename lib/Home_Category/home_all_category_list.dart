@@ -28,15 +28,15 @@ class _HomeAllCategoryListScreenState extends State<HomeAllCategoryListScreen> {
     return Scaffold(
       backgroundColor: HexColor("#ededed"),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color(0xFFFFFFFF),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: HexColor("#dc3545"),
         elevation: 1,
         centerTitle: true,
         title: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Text(
               widget.appBarTitle,
-              style: TextStyle(fontSize: 18, color: Colors.black),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             )),
       ),
       body: Obx(() {

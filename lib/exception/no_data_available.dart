@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class NoDatAvailable extends StatelessWidget {
   @override
@@ -13,13 +11,13 @@ class NoDatAvailable extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Text("No Results Found",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),)
-
+            Text(
+              "No Results Found",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
-
     );
   }
 }

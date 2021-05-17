@@ -6,6 +6,7 @@ import 'package:suuq_somali/DrawerScreen.dart';
 import 'package:get/route_manager.dart';
 import 'package:suuq_somali/View_listing/my_listing.dart';
 import '../main.dart';
+import 'constant.dart';
 import 'my_profile.dart';
 
 
@@ -89,66 +90,83 @@ class _UserProfileState extends State<UserProfile> {
       appBar: AppBar(
         elevation: 1,
         iconTheme: IconThemeData(color: Colors.black54),
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          "assets/images/suuq_logo.png",
-          height: 90,
-          width: 170,
-        ),
-        centerTitle: true,
-
+        backgroundColor: HexColor("#dc3545"),
+        title: Text("Account",style: TextStyle(fontSize: 17,color: Colors.white),),
+        // title: Image.asset(
+        //   "assets/images/suuq_logo.png",
+        //   height: 90,
+        //   width: 170,
+        // ),
+    //    centerTitle: true,
+actions: [
+  IconButton(icon: Icon(Icons.settings,color: Colors.white,size: 25,), onPressed: (){
+    Get.to(ChangepasswordScreen(),transition: Transition.zoom);
+  })
+],
       ),
-      drawer: MenuScreen(),
+     // drawer: MenuScreen(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18.0),
-                      child: Text(
-                        "$firstName $lastName",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold,fontFamily: "Droid Serif"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18.0, top: 4),
-                      child: Text(
-                        "$email",
-                        style: TextStyle(fontSize: 17,fontFamily: "Droid Serif"),
-                      ),
-                    ),
-                    //Spacer(),
-                  ],
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 18.0, top: 10),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.black,
-                    radius: 35.0,
-                    child: Center(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 32.0,
-                        backgroundImage: profileImage == null
-                            ? AssetImage("assets/images/person.png")
-                            : NetworkImage(
-                          "https://vromonbuzz.com/" + "$profileImage",
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[400]
+              ),
+              height: 60,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(left:28.0,top: 18),
+                child: Text( "$firstName $lastName",style: TextStyle(fontSize: 18),),
+              ),
+
             ),
+            // Row(
+            //   children: [
+            //     Column(
+            //       mainAxisAlignment: MainAxisAlignment.start,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 18.0),
+            //           child: Text(
+            //             "$firstName $lastName",
+            //             style: TextStyle(
+            //                 fontSize: 18, fontWeight: FontWeight.bold,fontFamily: "Droid Serif"),
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.only(left: 18.0, top: 4),
+            //           child: Text(
+            //             "$email",
+            //             style: TextStyle(fontSize: 17,fontFamily: "Droid Serif"),
+            //           ),
+            //         ),
+            //         //Spacer(),
+            //       ],
+            //     ),
+            //     Spacer(),
+            //     Padding(
+            //       padding: const EdgeInsets.only(right: 18.0, top: 10),
+            //       child: CircleAvatar(
+            //         backgroundColor: Colors.black,
+            //         radius: 35.0,
+            //         child: Center(
+            //           child: CircleAvatar(
+            //             backgroundColor: Colors.white,
+            //             radius: 32.0,
+            //             backgroundImage: profileImage == null
+            //                 ? AssetImage("assets/images/person.png")
+            //                 : NetworkImage(
+            //               "https://vromonbuzz.com/" + "$profileImage",
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
 
             Divider(
               thickness: 1,
@@ -217,14 +235,31 @@ class _UserProfileState extends State<UserProfile> {
               elevation: 0,
               child: ListTile(
                 onTap: () {
-                  Get.to(ChangepasswordScreen(),transition: Transition.zoom);
 
                 },
                 title: Text(
-                  "Change password",
+                  "Favourite",
                   style: TextStyle(fontSize: 18,fontFamily: "Droid Serif"),
                 ),
-                trailing: Icon(Icons.lock_outlined),
+                trailing: Icon(Icons.favorite_border),
+              ),
+            ),
+            Divider(
+              thickness: 1,
+              indent: 17,
+              endIndent: 17,
+            ),
+            Card(
+              elevation: 0,
+              child: ListTile(
+                onTap: () {
+
+                },
+                title: Text(
+                  "Stay Safe",
+                  style: TextStyle(fontSize: 18,fontFamily: "Droid Serif"),
+                ),
+                trailing: Icon(Icons.sanitizer),
               ),
             ),
             // Card(

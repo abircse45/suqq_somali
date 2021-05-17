@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:suuq_somali/bindings/bindings.dart';
 import 'package:suuq_somali/screen/tabbar_page.dart';
 
+import 'localization/language_constants.dart';
 
 void main() {
   //ErrorWidget.builder = (FlutterErrorDetails details) => Container();
@@ -15,7 +16,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
- //  state.setLocale(newLocale);
+    state.setLocale(newLocale);
   }
 
   // This widget is the root of your application.
@@ -24,22 +25,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Locale _locale;
-  // setLocale(Locale locale) {
-  //   setState(() {
-  //     _locale = locale;
-  //   });
-  // }
+  Locale _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
-  // @override
-  // void didChangeDependencies() {
-  //   getLocale().then((locale) {
-  //     setState(() {
-  //       this._locale = locale;
-  //     });
-  //   });
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    getLocale().then((locale) {
+      setState(() {
+        this._locale = locale;
+      });
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
       // locale: _locale,
       // supportedLocales: [
       //   Locale("en", "US"),
-      //   Locale("ar", "SA"),
+      //   Locale("su", "SO"),
       // ],
       // localizationsDelegates: [
       //   DemoLocalization.delegate,
@@ -118,11 +119,13 @@ class _SplashScreenState extends State<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.all(50.0),
-                child: Image.asset("assets/images/suuq_logo.png"))
+              padding: EdgeInsets.all(50.0),
+              child: Image.asset("assets/images/spp.png"),
+            ),
           ],
         ),
       ),
     );
   }
 }
+// --no-sound-null-safety null safety...................

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suuq_somali/AllAds/all_add_screen.dart';
 import 'package:suuq_somali/Bottom_search/search_page.dart';
 import 'package:suuq_somali/Chat/chat_page.dart';
 import 'package:suuq_somali/DrawerScreen.dart';
@@ -37,8 +38,11 @@ class _TabBarScreenState extends State<TabBarScreen> {
     return Scaffold(
       bottomNavigationBar: _getNavigationButton(),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 18.0),
+        padding: const EdgeInsets.only(top: 48.0),
         child: FloatingActionButton(
+          autofocus: false,
+
+
           backgroundColor: Colors.red,
           onPressed: () {
             Get.to(CreateListingItem());
@@ -104,7 +108,7 @@ class _TabBarScreenState extends State<TabBarScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.search,
+                        Icons.list,
                         color: _currentIndex == 1 ? Colors.red : Colors.black,
                         size: 30,
                       ),
@@ -180,7 +184,8 @@ class _TabBarScreenState extends State<TabBarScreen> {
       index: _currentIndex,
       children: [
         MarketScreen(),
-        SearchPage(),
+       AllAddScreen(),
+       // SearchPage(),
         ChatPage(),
         token == null ? LoginScreen() : UserProfile(),
       ],

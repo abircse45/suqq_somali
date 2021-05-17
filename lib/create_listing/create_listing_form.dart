@@ -110,7 +110,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
           "item_img": multipartFile,
           "userid": id,
           "token": token,
-          "submit_token" : randomNumeric(4),
+          "submit_token": randomNumeric(4),
         });
         var response = await _dio.post(
             "https://suuq.cwprojects.xyz/user/process-upload.php",
@@ -118,11 +118,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
         if (response.statusCode == 200) {
           multiData = response.data;
           print("Response Dio    ..>>  ${response.data}");
-
-
-
-        } else {
-        }
+        } else {}
       }
     }
   }
@@ -150,7 +146,6 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
       singlePhotoUpload();
     });
   }
-
 
   File singleFileImage;
   String name;
@@ -238,7 +233,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
       "postal_code": postalCode,
       "phone": phonenumber,
       "uploaded_main_pic": name,
-        "uploads[]" : multiData,
+      "uploads[]": multiData,
       "area_code": "1",
       "category_id": "173",
       "city_id": "1",
@@ -299,7 +294,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
         padding: const EdgeInsets.only(bottom: 0, left: 10, right: 10),
         child: GestureDetector(
           onTap: () {
-         //   singlePhotoUpload();
+            //   singlePhotoUpload();
 
             // if(name !=null){
             //
@@ -315,13 +310,38 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
             //       fontSize: 16.0);
             // }
 
-
-
-        //    })
+            //    })
 //;
 
 
-            if(_key.currentState.validate()){
+
+
+
+            if (_key.currentState.validate()) {
+              if (name==null) {
+                return Fluttertoast.showToast(
+                    msg: "Please Select Main Photo",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 4,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                singlePhotoUpload();
+              }
+              if (images.isEmpty) {
+                return Fluttertoast.showToast(
+                    msg: "Please Select Multiple Photo",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 4,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                _saveImages();
+              }
               final String title = itemTilte.text;
               final String priceData = price.text;
               final String shortDesciption = shortDescription.text;
@@ -340,12 +360,11 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                 phone,
                 houseSize,
               );
-            }else{
+            } else {
               setState(() {
                 _autovalidate = true;
               });
             }
-
 
             //
             //  if (_key.currentState.validate()) {
@@ -457,8 +476,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                         ),
                       ),
                     )
-                  :
-              Padding(
+                  : Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: GestureDetector(
                         onTap: () {},
@@ -471,8 +489,8 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: FileImage(
-                                      File(singleFileImage.path),
-                                    ),
+                                File(singleFileImage.path),
+                              ),
                             ),
                           ),
                         ),
@@ -560,6 +578,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                 padding:
                     const EdgeInsets.only(left: 25.0, right: 18, bottom: 19),
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value.isEmpty) {
                       return "please enter postal code";
@@ -672,6 +691,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                 padding:
                     const EdgeInsets.only(left: 25.0, right: 18, bottom: 19),
                 child: TextFormField(
+                  keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value.isEmpty) {
                       return "please enter phone number";
@@ -686,6 +706,7 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                 padding:
                     const EdgeInsets.only(left: 25.0, right: 18, bottom: 19),
                 child: TextFormField(
+                  keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value.isEmpty) {
                       return "please enter whats app no";
@@ -924,15 +945,15 @@ class _CreateListFormPageState extends State<CreateListFormPage> {
                   );
                 },
               ),
-           //   Multiple Image Upload............
+              //   Multiple Image Upload............
               images.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(
-                          left: 10.0, top: 15, bottom: 15),
+                          left: 20.0, top: 15, bottom: 15),
                       child: Text(
                         "Photos",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     )
                   : Padding(

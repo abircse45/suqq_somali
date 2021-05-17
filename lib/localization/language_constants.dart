@@ -7,8 +7,7 @@ const String LAGUAGE_CODE = 'languageCode';
 
 //languages code
 const String ENGLISH = 'en';
-const String SOMALI = 'so_SO';
-const String ARABIC = 'ar';
+const String SOMALI = 'su';
 
 
 Future<Locale> setLocale(String languageCode) async {
@@ -29,8 +28,7 @@ Locale _locale(String languageCode) {
       return Locale(ENGLISH, 'US');
     case SOMALI:
       return Locale(SOMALI, "SO");
-    case ARABIC:
-      return Locale(ARABIC, "SA");
+
     default:
       return Locale(ENGLISH, 'US');
   }
